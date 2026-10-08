@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Locale;
 
 /**
  * CPU Thread. Runs a python script from a given PCB.
@@ -32,7 +33,10 @@ public class CPU extends Thread {
 		this.PCB.setState("running");
 		System.out.println(this.PCB.getPID() + ": " + this.PCB.getState().toUpperCase().charAt(0) + this.PCB.getState().substring(1));
 
-		ProcessBuilder processBuilder = new ProcessBuilder(Main.pythonPathWindows, PCB.getProcessPath());
+		String pythonPath = System.getProperty("os.name").toLowerCase(Locale.ROOT).startsWith("windows")
+				? Main.pythonPathWindows
+				: Main.pythonPath;
+		ProcessBuilder processBuilder = new ProcessBuilder(pythonPath, PCB.getProcessPath());
 
     	// processBuilder.directory(new File("C:\\\\Users\\\\Rumen\\\\Documents\\\\com1032rv00349"));
     	// System.out.println("Process: " + processBuilder.command());

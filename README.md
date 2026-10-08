@@ -1,3 +1,64 @@
+# CPU-Scheduler
+ 
+A small simulation of how an operating system decides which process gets the CPU next. The "processes" are real Python scripts, the "CPU" is a Java class that launches them, and three scheduling algorithms (first come first served, round robin and non-preemptive priority) take turns deciding the order.
+ 
+This started as a university coursework (module COM1032). The assignment came with a skeleton: the `Main` helpers, the burst-time table and a set of sample unit tests were provided, and the rest of the classes were mine to fill in. I built it in stages, one algorithm at a time, and the notes from that are further down.
+ 
+## The big picture
+ 
+Everything that happens in a run, from the input file to the final printout:
+ 
+```
+ InputScripts1.txt
+        |
+        |  JobQueue.readFile(): one PCB per line
+        v
+    JobQueue  ----------------------------------------------+
+        |                                                   |
+        |  ProcessCreator (thread 1)                        |
+        |  moves PCBs over, marks them "ready", notifyAll() |
+        v                                                   |
+   readyQueue  <--- shared, guarded by synchronized ---+    |
+        |                                              |    |
+        |  Dispatcher (thread 2)                       |    |
+        |  waits when empty, otherwise asks:           |    |
+        v                                              |    |
+   Scheduler.runAlgorithm()  --> FCFS | RR | PRIORITY  |    |
+        |                                              |    |
+        |  runs a process through                      |    |
+        v                                              |    |
+      CPU  --> python3 processN.py  --> output captured in the PCB
+        |
+        v
+    EventLog  (PCBs in the order they finished)
+        |
+        v
+  Main.finaliseThreads() prints "Completion order:"
+```
+ 
+## What's in the repo
+ 
+```
+CPU-Scheduler/
+├── pom.xml                      Maven build (JUnit 5, Java 25)
+├── .gitlab-ci.yml               CI job that runs `mvn compile` on main
+├── InputScripts1.txt ... 5.txt  Sample job lists to feed the scheduler
+├── process0.py ... process5.py  The Python workloads that act as processes
+└── src/
+    ├── main/java/ProcessScheduler/
+    │   ├── Main.java                 Entry point; picks the stage and wires everything up
+    │   ├── ProcessControlBlock.java  The PCB: everything the "OS" knows about one process
+    │   ├── JobQueue.java             Reads an input file and creates the PCBs
+    │   ├── ProcessCreator.java       Thread that moves PCBs from the job queue to the ready queue
+    │   ├── Dispatcher.java           Thread that hands work to the scheduler, one process at a time
+    │   ├── Scheduler.java            The three algorithms
+    │   ├── CPU.java                  Runs one PCB's Python script and captures its output
+    │   └── EventLog.java             Records processes in completion order
+    └── test/java/ProcessScheduler/
+        └── schedulerUnitTests.java   22 tests, grouped by stage
+```
+
+
 
 Stage 0 (5%)
 --------------

@@ -1,0 +1,7 @@
+#Lines empty or beginning with '#' ignored.
+# PID,Priority (1 to 10),Python name 
+# Priority 1 is the lowest, Priority 10 is the highest 
+P01,1,process1.py
+P02,7,process2.py
+P03,6,process3.py
+P04,3,process0.py

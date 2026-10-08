@@ -1,0 +1,9 @@
+#Input text files - a list of Python scripts to be executed
+#Lines empty or beginning with '#' ignored.
+#PID,Priority,Python name
+# Priority 1 is the lowest, Priority 10 is the highest 
+#
+P01,2,process1.py
+P02,1,process0.py
+P03,6,process1.py
+P04,9,process0.py

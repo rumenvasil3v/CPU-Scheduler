@@ -1,0 +1,9 @@
+image: alpine:latest
+
+compile:
+  script:
+      - apk add openjdk17 python3 maven
+      - mvn compile
+  only:
+    - main
+

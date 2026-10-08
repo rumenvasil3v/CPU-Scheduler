@@ -1,15 +1,3 @@
-README.md — Structured Reflection Template
---------------------------------------------
-
-The badge below indicates if your submission compiled correctly. It may take some time to update. You can click the badge to see the jobs page and failure traces.
-
-You must ensure your project compiles correctly.
-
-[![Pipeline status](https://gitlab.surrey.ac.uk/csee/com1032/2025-26/com1032rv00349/badges/main/pipeline.svg)](https://gitlab.surrey.ac.uk/csee/com1032/2025-26/com1032rv00349/-/jobs/)
-
-For each stage (0–3), complete the table below.
-* 50 to 100 words per stage.
-* Bullet points only.
 
 Stage 0 (5%)
 --------------
